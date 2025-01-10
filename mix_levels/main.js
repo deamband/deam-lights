@@ -81,7 +81,9 @@ function dbToPercentage(d) {
   return f / 0.75;
 }
 
-var dmxnet = new dmxlib.dmxnet();
+var dmxnet = new dmxlib.dmxnet({});
+
+// TODO: update library to send only used channels, not all 512
 var sender = dmxnet.newSender({
   universe: 10,
 });
@@ -101,10 +103,14 @@ udpPort.on("message", function (oscMessage) {
   if (oscMessage.address == "/meters/1") {
     // This is a data packet we requested of meter data
     const levels = processMeter1Packet(oscMessage["args"][0]);
-    const level = Math.max(0, levels.auxL - 0.5) * 2;
-    process.stdout.write("".padEnd(Math.floor(100 * level), "#").padEnd(100, " ") + " " + levels.auxL + "\r");
 
-    sender.setChannel(1, level * 255);
+    //DEBUG: process.stdout.write("".padEnd(Math.floor(100 * levels.auxL), "#").padEnd(100, " ") + " " + levels.auxL + "\r");
+
+    Object.keys(levels).forEach((key, i) => {
+      sender.setChannel(i, levels[i] * 255);
+    });
+
+    sender.transmit();
   } else {
     //This is another packet, which we'll just print to console
     console.log(oscMessage);
