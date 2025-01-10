@@ -1,0 +1,10 @@
+{
+  "main": "mix_levels",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "dmxnet": "^0.9.0",
+    "osc": "^2.4.1"
+  }
+}
