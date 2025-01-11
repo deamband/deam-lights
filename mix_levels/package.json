@@ -1,10 +1,15 @@
 {
   "main": "mix_levels",
   "scripts": {
-    "start": "node main.js"
+    "start": "ts-node main.ts"
   },
   "dependencies": {
+    "@deamband/xr18-osc": "file:../xr18-osc",
     "dmxnet": "^0.9.0",
-    "osc": "^2.4.1"
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }
